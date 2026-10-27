@@ -12,6 +12,7 @@ paths = [
     ".gitattributes", ".gitignore",
     "README.md", "README.zh-CN.md", "NOTICE.txt", "LICENSING.md", "CHANGELOG.md",
     "build-theme.py", "package-theme.py", "build-manifest.json",
+    "RELEASE_VERSION", "RELEASE_NOTES.md",
     "dist/nebula-github.css", "dist/nebula-github.user.css",
     "src/interface.css", "src/palettes.json", "src/geometry.css",
     "src/geometry-left.svg", "src/geometry-right.svg",

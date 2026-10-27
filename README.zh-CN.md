@@ -2,7 +2,19 @@
 
 GitHub 蓝紫日夜主题：白天使用柔和雾紫，夜晚使用深蓝，搭配细网格、渐变和漂浮几何背景。
 
-**[通过 Stylus 安装](https://raw.githubusercontent.com/saladinxp/github-nebula-theme/main/dist/nebula-github.user.css)** · [English](README.md) · [更新日志](CHANGELOG.md) · [Gitea 版](https://github.com/saladinxp/gitea-nebula-theme)
+**[通过 Stylus 安装](https://raw.githubusercontent.com/saladinxp/github-nebula-theme/main/dist/nebula-github.user.css)** · **[下载完整 ZIP](https://github.com/saladinxp/github-nebula-theme/releases/download/v1.2.1/nebula-github-1.2.1.zip)** · [English](README.md) · [更新日志](CHANGELOG.md) · [Gitea 版](https://github.com/saladinxp/gitea-nebula-theme)
+
+## 下载、安装和更新入口
+
+| 需要做什么 | 入口 / 操作 |
+| --- | --- |
+| 下载当前完整包（v1.2.1） | **[下载 nebula-github-1.2.1.zip](https://github.com/saladinxp/github-nebula-theme/releases/download/v1.2.1/nebula-github-1.2.1.zip)** |
+| 查找后续版本 | [最新发布](https://github.com/saladinxp/github-nebula-theme/releases/latest) · [全部版本](https://github.com/saladinxp/github-nebula-theme/releases) |
+| 校验压缩包和单独文件 | [SHA-256 校验清单](https://github.com/saladinxp/github-nebula-theme/releases/download/v1.2.1/release-SHA256SUMS.txt) |
+| 首次安装到浏览器 | **[通过 Stylus 安装主题](https://raw.githubusercontent.com/saladinxp/github-nebula-theme/main/dist/nebula-github.user.css)** · [安装步骤](#安装) |
+| 更新已安装的主题 | Stylus 管理页 → 检查更新；[详细说明](#更新或移除) |
+
+完整 ZIP 包含安装说明、字体、离线预览、源码和许可证，下载后先解压。发布页自动生成的 **Source code** 是仓库快照；需要整理好的发行包时，请下载上面有版本号的 ZIP。
 
 ## 外观
 
@@ -21,6 +33,12 @@ GitHub 蓝紫日夜主题：白天使用柔和雾紫，夜晚使用深蓝，搭�
 在 GitHub **Settings → Appearance** 选择浅色、深色或跟随系统，Nebula 会跟随该选择。
 
 主题只在安装它的浏览器中影响 `https://github.com/`，不会修改仓库文件，也不会改变其他访客看到的页面。
+
+### 配色在哪里切换？
+
+打开 **[GitHub 设置 → 外观](https://github.com/settings/appearance)**，选择 **Light（浅色）**、**Dark（深色）** 或 **Sync with system（跟随系统）**。Nebula 跟随 GitHub 的选择。Stylus 里的选项控制网格、几何背景和动效，GitHub 顶栏不会新增独立的配色按钮。
+
+离线演示顶部的 Light / Dark 按钮是**预览专用控件**。演示使用示例页面结构和内嵌字体，因此顶栏布局、字形可能与实时网站不同。需要相同字体时，可安装下文列出的可选本地字体。
 
 ### 更新或移除
 

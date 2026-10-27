@@ -1,0 +1,30 @@
+{
+  "light": {
+    "page": "#f5f5fc", "surface": "#f3f0fc", "muted": "#f7f5ff", "inset": "#f0eff9", "reading": "#f0edfc",
+    "text": "#34364e", "strong": "#20203a", "subtle": "#626a83", "disabled": "#8e95aa",
+    "border": "#d9dbea", "border-muted": "#e4e5f0", "border-strong": "#a1a5c0",
+    "accent": "#6a48f5", "accent-hover": "#5c3cda", "accent-solid": "#6a48f5", "accent-muted": "#eee9ff",
+    "hover": "#f0ecff", "selected": "#e8e1ff", "nav": "#ffffffed", "overlay": "#ffffff",
+    "emphasis": "#252640", "inverse": "#252640", "on-inverse": "#ffffff", "backdrop": "#17193566",
+    "control": "#f8f7ff", "control-hover": "#eeebfb", "control-active": "#e4def9", "control-disabled": "#ececf4",
+    "primary": "#6b48e8", "primary-hover": "#5f3ed4", "primary-active": "#5335bf", "primary-disabled": "#c9beee",
+    "cyan": "#0aa5c8", "aurora-violet": "#8f76ff30", "aurora-cyan": "#25cfee22", "grid-rgb": "106 72 245",
+    "glow": "#7959f52c", "glow-strong": "#7959f54d", "shadow": "#38336712",
+    "code": "#fbfaff", "code-inline": "#6a48f510", "comment": "#69718a",
+    "gradient": "linear-gradient(120deg, #7653ef 0%, #6945e5 52%, #4669eb 100%)"
+  },
+  "dark": {
+    "page": "#0d1020", "surface": "#14172c", "muted": "#1b1d36", "inset": "#101427", "reading": "#171a30",
+    "text": "#d9deef", "strong": "#f1f1fc", "subtle": "#a4adc9", "disabled": "#75809f",
+    "border": "#343950", "border-muted": "#292f46", "border-strong": "#667193",
+    "accent": "#a18aff", "accent-hover": "#c3b4ff", "accent-solid": "#7956ee", "accent-muted": "#292241",
+    "hover": "#23233f", "selected": "#30284d", "nav": "#121529ed", "overlay": "#1a1e36",
+    "emphasis": "#252943", "inverse": "#edf0fc", "on-inverse": "#171a2e", "backdrop": "#050819b3",
+    "control": "#1d2139", "control-hover": "#292b48", "control-active": "#353452", "control-disabled": "#22273c",
+    "primary": "#7651e6", "primary-hover": "#6743d5", "primary-active": "#5a38c1", "primary-disabled": "#4e416d",
+    "cyan": "#5bd8ee", "aurora-violet": "#8567ff2b", "aurora-cyan": "#2bd5ed18", "grid-rgb": "173 184 224",
+    "glow": "#8b6cff2e", "glow-strong": "#8b6cff52", "shadow": "#00000038",
+    "code": "#101427", "code-inline": "#ffffff12", "comment": "#99a3c0",
+    "gradient": "linear-gradient(120deg, #7653ef 0%, #6949e2 52%, #4669e8 100%)"
+  }
+}

@@ -1,0 +1,361 @@
+/* Nebula for GitHub. Presentational CSS only; native layout and semantics stay in GitHub. */
+:root {
+  --fontStack-system: "Sora", -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, "PingFang SC", "Microsoft YaHei", sans-serif !important;
+  --fontStack-sansSerif: var(--fontStack-system) !important;
+  --fontStack-sansSerifDisplay: "Oxanium", var(--fontStack-system) !important;
+  --fontStack-monospace: "JetBrains Mono", ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace !important;
+  --borderRadius-small: 6px;
+  --borderRadius-medium: 8px;
+  --borderRadius-large: 12px;
+  --borderRadius-xlarge: 16px;
+  --nb-grid-color: rgb(var(--nb-grid-rgb) / calc(.038 * var(--nebula-grid, 1)));
+}
+
+html { background-color: var(--nb-page) !important; }
+body {
+  color: var(--nb-text) !important;
+  font-family: var(--fontStack-system) !important;
+  background-color: var(--nb-page) !important;
+  background-image:
+    linear-gradient(180deg, transparent 0, transparent 420px, var(--nb-page) 1100px),
+    radial-gradient(960px 520px at 6% 0%, var(--nb-aurora-violet), transparent 76%),
+    radial-gradient(820px 480px at 98% 1%, var(--nb-aurora-cyan), transparent 76%),
+    linear-gradient(var(--nb-grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--nb-grid-color) 1px, transparent 1px) !important;
+  background-size: auto, auto, auto, 40px 40px, 40px 40px !important;
+  background-attachment: fixed !important;
+}
+::selection { background: var(--nb-selected); color: var(--nb-strong); }
+
+/* Both legacy and current React wrappers. No width/height, position, or overflow rewrites. */
+.application-main, #js-repo-pjax-container, #repo-content-pjax-container,
+.pagehead.repohead, .pagehead.repohead .color-bg-default {
+  background-color: transparent !important;
+}
+
+/* Signed-in dashboard: only clear the two observed page-sized canvas layers.
+ * Cards and the sidebar stay opaque. The shared neutral surface palette
+ * also covers components outside these page-specific rules. */
+.application-main > .color-bg-default:has(> .feed-background),
+.feed-background {
+  background-color: transparent !important;
+}
+.feed-background .feed-left-sidebar {
+  background-color: var(--nb-reading) !important;
+  background-image: linear-gradient(180deg,
+    color-mix(in srgb, var(--nb-reading) 92%, var(--nb-accent) 8%) 0,
+    var(--nb-reading) 250px,
+    var(--nb-page) 100%) !important;
+  border-color: var(--nb-border) !important;
+}
+.feed-background react-partial[partial-name="copilot-chat-input-partial"]
+  form:has(#copilot-chat-textarea) {
+  background-color: var(--nb-reading) !important;
+}
+.feed-background react-partial[partial-name="dashboard-lists"]
+  ul:is([class*="Items__"], [class*="_Items"], :has(> li.controlBoxContainer)),
+.feed-background .Box:not(.Box--danger),
+.feed-background .dashboard-changelog,
+.feed-background .universe26banner {
+  background-color: var(--nb-reading) !important;
+  border-color: var(--nb-border) !important;
+  box-shadow: 0 4px 18px var(--nb-shadow);
+}
+
+/* Search: its own canvas otherwise hides the body aurora and grid.
+ * Repository, code, issue, pull-request, discussion and user results share
+ * these observed semantic boundaries. Do not clear PageLayout wrappers:
+ * mobile filter sheets and popovers must retain their opaque surface. */
+react-app[app-name="blackbird-search"] .search-results-page {
+  background-color: transparent !important;
+}
+react-app[app-name="blackbird-search"]
+  [data-component="PageLayout.Pane"]:has([data-testid="facets-pane"]) {
+  background-color: var(--nb-reading) !important;
+  background-image: linear-gradient(180deg,
+    color-mix(in srgb, var(--nb-reading) 92%, var(--nb-accent) 8%),
+    var(--nb-reading) 320px) !important;
+}
+react-app[app-name="blackbird-search"]
+  [data-testid="results-list"] > div:has(.search-title) {
+  background-color: var(--nb-surface) !important;
+  border-color: var(--nb-border) !important;
+  border-radius: var(--borderRadius-large);
+  box-shadow: 0 3px 16px var(--nb-shadow);
+}
+
+/* Headers use backgrounds, not pseudo-elements that can cover controls or native loaders. */
+.AppHeader, .GlobalNav, .Header:not(.HeaderMktg),
+header[class*="appHeader__"], header[class*="AppHeader-"] {
+  background-color: var(--nb-nav) !important;
+  color: var(--nb-text) !important;
+  border-bottom-color: color-mix(in srgb, var(--nb-accent) 30%, var(--nb-border)) !important;
+  box-shadow: 0 1px 0 var(--nb-border), 0 5px 24px var(--nb-shadow) !important;
+  background-image:
+    linear-gradient(90deg, transparent, var(--nb-accent) 36%, var(--nb-cyan) 56%, transparent),
+    linear-gradient(110deg,
+      color-mix(in srgb, var(--nb-nav) 83%, var(--nb-accent) 17%) 0%,
+      var(--nb-nav) 48%,
+      color-mix(in srgb, var(--nb-nav) 91%, var(--nb-cyan) 9%) 100%) !important;
+  background-size: 46% 2px, 100% 100% !important;
+  background-repeat: no-repeat !important;
+  background-position: 0% 100%, 0 0;
+  animation: nebula-github-header-scan 16s linear infinite;
+  animation-play-state: var(--nebula-motion, running);
+}
+.AppHeader .AppHeader-globalBar, .GlobalNav .AppHeader-globalBar { background-color: transparent !important; }
+.AppHeader .AppHeader-logo, .GlobalNav .AppHeader-logo,
+.Header .octicon-mark-github, .GlobalNav .octicon-mark-github {
+  color: var(--nb-accent) !important;
+  filter: drop-shadow(0 2px 7px var(--nb-glow));
+}
+
+/* Signed-in GitHub now uses CSS Modules names alongside .GlobalNav.
+ * Match the stable component name across both name__hash and module_hash_name.
+ * Only presentation changes: native geometry, focus and menu behavior stay intact. */
+.GlobalNav :is([class*="appHeaderButton__"], [class*="_appHeaderButton"],
+  [class*="actionMenuButton__"], [class*="_actionMenuButton"]):not(:disabled):not([aria-disabled="true"]),
+.AppHeader .AppHeader-button:not(:disabled):not([aria-disabled="true"]) {
+  color: var(--nb-accent) !important;
+  background-color: color-mix(in srgb, var(--nb-surface) 91%, var(--nb-accent) 9%) !important;
+  border-color: color-mix(in srgb, var(--nb-accent) 26%, var(--nb-border)) !important;
+  box-shadow: 0 2px 8px var(--nb-shadow);
+}
+.GlobalNav :is([class*="appHeaderButton__"], [class*="_appHeaderButton"],
+  [class*="actionMenuButton__"], [class*="_actionMenuButton"]):not(:disabled):not([aria-disabled="true"]):hover,
+.AppHeader .AppHeader-button:not(:disabled):not([aria-disabled="true"]):hover {
+  background-color: var(--nb-selected) !important;
+  border-color: var(--nb-accent) !important;
+}
+.GlobalNav :is([class*="searchButton__"], [class*="_searchButton"]):not(:disabled):not([aria-disabled="true"]),
+.AppHeader .AppHeader-search:not(:disabled):not([aria-disabled="true"]) {
+  color: var(--nb-subtle) !important;
+  background-color: var(--nb-surface) !important;
+  border-color: color-mix(in srgb, var(--nb-accent) 26%, var(--nb-border)) !important;
+  box-shadow: 0 2px 10px var(--nb-shadow);
+}
+.GlobalNav :is([class*="searchButton__"], [class*="_searchButton"]) .octicon-search {
+  color: var(--nb-accent) !important;
+}
+.GlobalNav [data-component="Breadcrumbs.Item"] {
+  font-family: var(--fontStack-sansSerifDisplay) !important;
+  font-weight: 600;
+  letter-spacing: .015em;
+}
+.GlobalNav [data-component="Breadcrumbs.Item"][aria-current="page"] {
+  color: var(--nb-accent) !important;
+}
+header.GlobalNav :is(.UnderlineNav-item, [data-component="UnderlineNav.Item"],
+  [class*="prc-components-UnderlineItem-"])[aria-current="page"] {
+  color: var(--nb-accent) !important;
+  background-color: color-mix(in srgb, var(--nb-selected) 74%, transparent) !important;
+  border-radius: 8px 8px 0 0;
+}
+header.GlobalNav :is(.UnderlineNav-item, [data-component="UnderlineNav.Item"],
+  [class*="prc-components-UnderlineItem-"])[aria-current="page"]::after {
+  background-image: var(--nb-gradient) !important;
+}
+.GlobalNav :is([class*="GlobalNavUserMenu"][class*="anchor"], .AppHeader-user) img,
+.AppHeader .AppHeader-user img {
+  box-shadow: 0 0 0 2px var(--nb-nav), 0 0 0 3px var(--nb-accent);
+}
+#repository-container-header { background-color: transparent !important; }
+
+/* These are exact stable class/data-component families, not broad [class*=Box] matches. */
+.Box:not(.Box--danger), .boxed-group > .boxed-group-inner, .discussion-timeline .timeline-comment,
+.js-check-runs-container, .gist .gist-file,
+[data-testid="issue-viewer-container"] {
+  border-color: var(--nb-border) !important;
+  background-color: var(--nb-surface) !important;
+  box-shadow: 0 4px 18px var(--nb-shadow);
+}
+.Box-header, .Box-footer, .timeline-comment-header, .file-header,
+.diffbar, .commit-tease, .js-details-container .Details-content--hidden-not-important .Box-header {
+  background-color: var(--nb-muted) !important;
+  border-color: var(--nb-border) !important;
+}
+.Box-row { border-color: var(--nb-border-muted) !important; }
+.Box--danger, .Box--danger .Box-body:last-of-type, .Box--danger .Box-row:first-of-type {
+  border-color: var(--borderColor-danger-emphasis) !important;
+}
+.Box-row--hover-gray:hover, .Box-row--hover-blue:hover,
+.react-directory-row:hover, .js-issue-row:hover {
+  background-color: var(--nb-hover) !important;
+}
+.react-directory-row { border-color: var(--nb-border-muted) !important; }
+.react-directory-filename-column .octicon-file-directory-fill,
+.react-directory-filename-column .octicon-file-directory,
+.react-directory-filename-column .octicon-file-submodule,
+.js-navigation-item .octicon-file-directory {
+  color: var(--nb-accent) !important;
+}
+.react-directory-filename-cell a, .js-navigation-open {
+  color: var(--nb-text);
+}
+.react-directory-filename-cell a:hover, .js-navigation-open:hover { color: var(--nb-accent); }
+.react-directory-commit-age, .react-directory-row-commit-cell { color: var(--nb-subtle); }
+
+/* Recolor navigation via its own token; keep native active marker and overflow handling. */
+.UnderlineNav-item[aria-current]:not([aria-current="false"]),
+.UnderlineNav-item.selected,
+[data-component="UnderlineNav.Item"][aria-current]:not([aria-current="false"]),
+[class*="prc-components-UnderlineItem-"][aria-current]:not([aria-current="false"]) {
+  color: var(--nb-strong) !important;
+}
+.UnderlineNav-item:hover { background-color: var(--nb-hover); border-radius: 6px 6px 0 0; }
+
+/* Existing GitHub primary actions become violet. Success/danger/state/diff tokens are untouched. */
+:is(.btn-primary, .Button--primary,
+  [class*="prc-Button-ButtonBase-"][data-variant="primary"],
+  [data-component="Button"][data-variant="primary"])
+  :is(.octicon) { color: inherit; }
+:is(.btn-primary, .Button--primary,
+  [class*="prc-Button-ButtonBase-"][data-variant="primary"],
+  [data-component="Button"][data-variant="primary"])
+  { border-radius: var(--borderRadius-medium); }
+:is(.btn-primary, .Button--primary,
+  [class*="prc-Button-ButtonBase-"][data-variant="primary"],
+  [data-component="Button"][data-variant="primary"]):not(:disabled):not([aria-disabled="true"]):not([data-loading="true"]):not([aria-busy="true"]):not(.is-loading):not(.loading) {
+  background-image: var(--nb-gradient) !important;
+  box-shadow: 0 3px 12px var(--nb-glow) !important;
+}
+:is(.btn-primary, .Button--primary,
+  [class*="prc-Button-ButtonBase-"][data-variant="primary"],
+  [data-component="Button"][data-variant="primary"]):not(:disabled):not([aria-disabled="true"]):not([data-loading="true"]):not([aria-busy="true"]):hover {
+  box-shadow: 0 4px 17px var(--nb-glow-strong) !important;
+}
+.btn:not(.btn-danger):not(.btn-primary):not(.btn-invisible):not(.btn-link) {
+  color: var(--nb-text);
+  background-color: var(--nb-control);
+  border-color: var(--nb-border);
+}
+.topic-tag {
+  color: var(--nb-accent) !important;
+  background-color: var(--nb-accent-muted) !important;
+  border: 1px solid color-mix(in srgb, var(--nb-accent) 20%, transparent) !important;
+  border-radius: 999px !important;
+}
+.topic-tag:hover { background-color: var(--nb-selected) !important; }
+.Counter:not(.Counter--primary):not(.Counter--secondary) {
+  background-color: var(--nb-selected);
+  color: var(--nb-text);
+}
+
+/* Typography stays in its content context. Do not replace SVG icons, layout, or branded images. */
+.markdown-body :is(h1, h2, h3),
+.gh-header-title, [data-testid="issue-title"],
+[data-testid="issue-title-header"],
+[itemprop="name"] > a, .AppHeader-context-item-label,
+[data-component="Breadcrumbs"] {
+  font-family: var(--fontStack-sansSerifDisplay) !important;
+  letter-spacing: .005em;
+}
+.markdown-body {
+  color: var(--nb-text);
+  background-color: var(--nb-surface);
+  line-height: 1.75;
+}
+.markdown-body :is(h1, h2) { border-bottom-color: var(--nb-border-muted); }
+.markdown-body :is(h1, h2, h3, h4) { color: var(--nb-strong); }
+.markdown-body blockquote {
+  color: var(--nb-subtle);
+  border-left-color: color-mix(in srgb, var(--nb-accent) 38%, var(--nb-border));
+}
+.markdown-body a { text-underline-offset: 3px; }
+.markdown-body pre, .markdown-body .highlight pre {
+  background-color: var(--nb-code) !important;
+  border: 1px solid var(--nb-border-muted);
+  border-radius: 10px;
+}
+.markdown-body :not(pre) > code { background-color: var(--nb-code-inline); }
+
+/* README reading card: an opaque calm surface, independent of the page grid.
+ * Signed-in split-pane pages do not require a react-app wrapper. All observed
+ * current variants retain the schema.org abstract header, even without README.
+ * Legacy pages use #readme. Canvas tokens stay unchanged for nested menus.
+ * No layout, scroll, clipping, code/diff, image or animation overrides. */
+#readme,
+:is(#repos-split-pane-content, #repo-content-pjax-container, react-app[app-name="code-view"])
+  div:has(> [itemtype="https://schema.org/abstract"]) {
+  background-color: var(--nb-reading) !important;
+  background-image: none !important;
+  border-color: var(--nb-border) !important;
+  box-shadow: 0 4px 18px var(--nb-shadow);
+}
+#readme > .Box-header,
+:is(#repos-split-pane-content, #repo-content-pjax-container, react-app[app-name="code-view"])
+  [itemtype="https://schema.org/abstract"] {
+  background-color: var(--nb-reading) !important;
+  background-image: linear-gradient(110deg,
+    color-mix(in srgb, var(--nb-reading) 90%, var(--nb-accent) 10%),
+    var(--nb-reading) 58%,
+    color-mix(in srgb, var(--nb-reading) 94%, var(--nb-cyan) 6%)) !important;
+  border-color: var(--nb-border) !important;
+}
+#readme .markdown-body,
+:is(#repos-split-pane-content, #repo-content-pjax-container, react-app[app-name="code-view"])
+  div:has(> [itemtype="https://schema.org/abstract"])
+  > .js-snippet-clipboard-copy-unpositioned,
+:is(#repos-split-pane-content, #repo-content-pjax-container, react-app[app-name="code-view"])
+  div:has(> [itemtype="https://schema.org/abstract"])
+  > .js-snippet-clipboard-copy-unpositioned > article.markdown-body {
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+.blob-code, .blob-num, .react-code-text, .react-line-number,
+.markdown-body code, .markdown-body pre, .file .blob-code-inner {
+  font-family: var(--fontStack-monospace) !important;
+  font-variant-ligatures: none;
+}
+.blob-code:not(.blob-code-addition):not(.blob-code-deletion):not(.blob-code-hunk):not(.blob-code-context):not(.blob-code-empty):not(.blob-code-marker) {
+  color: var(--nb-text);
+}
+.pl-c { color: var(--nb-comment) !important; }
+/* No background override on .blob-code, .diff-line or all table cells: preserve diff meaning. */
+
+/* Native overlays remain opaque and keep their own stacking/placement. */
+.dropdown-menu, .SelectMenu-modal, .Popover-message,
+.Overlay, [data-component="Dialog"], [data-component="AnchoredOverlay"],
+[class*="prc-Overlay-Overlay-"] {
+  background-color: var(--nb-overlay) !important;
+  border-color: var(--nb-border) !important;
+}
+.SelectMenu-header, .SelectMenu-footer, .SelectMenu-filter { border-color: var(--nb-border-muted); }
+.SelectMenu-item:hover, .dropdown-item:hover { background-color: var(--nb-hover); }
+
+/* Error/invalid/danger selectors keep GitHub's own outline and border. */
+.form-control:focus:not([aria-invalid="true"]):not(.error):not(.is-invalid),
+.form-select:focus:not([aria-invalid="true"]):not(.error):not(.is-invalid) {
+  border-color: var(--nb-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--nb-accent) 15%, transparent);
+}
+.form-control::placeholder { color: var(--nb-subtle); opacity: 1; }
+.timeline-comment-wrapper .avatar, .timeline-comment-avatar {
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px var(--nb-surface), 0 0 0 3px var(--nb-border);
+}
+.TimelineItem-badge:not(.color-bg-success-emphasis):not(.color-bg-danger-emphasis):not(.color-bg-done-emphasis) {
+  border-color: var(--nb-page);
+}
+footer.footer { border-top-color: var(--nb-border-muted) !important; color: var(--nb-subtle); }
+
+@keyframes nebula-github-header-scan {
+  from { background-position: -85% 100%, 0 0; }
+  to { background-position: 185% 100%, 0 0; }
+}
+@media (max-width: 767px) {
+  body { background-attachment: scroll !important; background-size: auto, auto, auto, 32px 32px, 32px 32px !important; }
+  .AppHeader, .GlobalNav, header[class*="appHeader__"] { box-shadow: 0 1px 0 var(--nb-border) !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .AppHeader, .GlobalNav, .Header:not(.HeaderMktg),
+  header[class*="appHeader__"], header[class*="AppHeader-"] {
+    animation: none !important;
+    background-position: 50% 100%, 0 0 !important;
+  }
+}
+@media print {
+  body { background: #fff !important; color: #000 !important; }
+  .AppHeader, .GlobalNav, .Header { animation: none !important; box-shadow: none !important; }
+}

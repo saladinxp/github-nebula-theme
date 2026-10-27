@@ -1,0 +1,20 @@
+# Changelog
+
+## 1.2.1 — 2026-10-27
+
+Initial public release.
+
+- Light violet and deep navy palettes that follow GitHub appearance settings.
+- Consistent header, repository, README, dashboard, and search surfaces.
+- Opaque reading cards and sidebars with shared neutral color tokens.
+- Optional grid, floating geometry, and header animation.
+- Two geometry layers with 18/22-second desktop cycles and a 32-second narrow-layout cycle.
+- Reduced-motion support, print exclusions, and forced-color compatibility.
+- Optional local fonts and self-contained previews using fictional data.
+- Reproducible CSS generation and an explicit release file list.
+- Permanent Stylus install/update URL for this repository.
+
+### 中文
+
+首次公开发布，包含日夜配色、常用页面适配、阅读卡片、可配置几何动效、可选本地字体、离线示例和源码构建。Stylus 安装文件使用固定更新地址。
+

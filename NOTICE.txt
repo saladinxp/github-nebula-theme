@@ -1,0 +1,14 @@
+Nebula for GitHub 1.2.1
+
+Maintained by saladinxp.
+An independent browser theme, not an official GitHub product.
+
+Sora, Oxanium and JetBrains Mono are distributed as unmodified font files
+under the SIL Open Font License 1.1. Their license texts and source metadata
+are included in fonts/. These licenses apply to the corresponding fonts.
+
+HTML previews contain authored example markup and fictional repository
+data. They are independent appearance demonstrations, not captured accounts.
+
+See LICENSING.md for project licensing information.
+

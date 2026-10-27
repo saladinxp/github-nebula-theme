@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="zh-CN" data-color-mode="light" data-light-theme="light" data-dark-theme="dark" style="--nebula-grid:1;--nebula-geometry:1;--nebula-motion:running;color-scheme:light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Nebula for GitHub 的本地外观演示，全部使用虚构仓库与示例数据。">
+  <title>Nebula for GitHub · 本地外观预览</title>
+  <style>
+    /* Original layout fixture. This baseline is not copied from GitHub or Primer. */
+    * { box-sizing:border-box; }
+    body { margin:0; font:14px/1.5 system-ui,sans-serif; }
+    button,input,summary { font:inherit; }
+    button,summary,a { -webkit-tap-highlight-color:transparent; }
+    button,summary { cursor:pointer; }
+    a { color:var(--fgColor-accent,#6755bd); text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible { outline:3px solid var(--fgColor-accent,#6755bd); outline-offset:3px; }
+    button { color:inherit; }
+    svg { display:inline-block; vertical-align:middle; flex-shrink:0; }
+    .icon { width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
+    .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+    [hidden] { display:none !important; }
+    .muted { color:var(--fgColor-muted,#6b7280); }
+    .mono { font-family:var(--fontStack-monospace,monospace); }
+    .GlobalNav { border-bottom:1px solid; padding:0 28px; }
+    .AppHeader-globalBar { min-height:64px; display:flex; align-items:center; gap:16px; max-width:1500px; margin:auto; }
+    .AppHeader-logo { width:31px; height:31px; }
+    .header-logo-link { display:inline-grid; place-items:center; width:34px; height:34px; flex-shrink:0; border:0; background:transparent; }
+    .header-breadcrumbs { display:flex; align-items:center; min-width:0; white-space:nowrap; font-size:14px; }
+    .header-breadcrumbs a { color:var(--fgColor-default,#28303a); overflow:hidden; text-overflow:ellipsis; }
+    .header-breadcrumbs a[aria-current="page"] { font-weight:600; }
+    .icon-button.header-avatar { border:0; background:transparent; }
+    .icon-button.header-create { width:44px; display:inline-flex; gap:2px; justify-content:center; }
+    .icon-button { display:inline-grid; place-items:center; width:32px; height:32px; padding:0; border:1px solid var(--borderColor-default,#d9dde6); border-radius:7px; background:transparent; }
+    .AppHeader-context-item-label { font-size:14px; font-weight:600; }
+    .nav-slash { opacity:.4; margin:0 8px; }
+    .header-right { display:flex; align-items:center; gap:12px; margin-left:auto; }
+    .search-shell { display:flex; align-items:center; gap:8px; width:260px; height:32px; padding:0 10px; border:1px solid var(--borderColor-default,#d9dde6); border-radius:7px; color:var(--fgColor-muted,#6b7280); font-size:12px; }
+    .search-shell kbd { margin-left:auto; padding:0 5px; border:1px solid var(--borderColor-default,#d9dde6); border-radius:4px; font:11px/18px var(--fontStack-monospace,monospace); }
+    .avatar { display:inline-grid; place-items:center; width:30px; height:30px; flex-shrink:0; border:1px solid var(--borderColor-default,#d9dde6); border-radius:50%; background:var(--bgColor-muted,#f3f4f6); color:var(--fgColor-accent,#6755bd); font-size:10px; font-weight:700; }
+    .repo-shell { max-width:1240px; margin:0 auto; padding:28px 30px 40px; }
+    .repo-heading { display:flex; align-items:center; gap:16px; flex-wrap:wrap; margin-bottom:22px; }
+    .repo-title { display:flex; align-items:center; flex-wrap:wrap; gap:7px; margin:0; font-size:21px; font-weight:500; min-width:0; }
+    .repo-title strong { font-weight:650; overflow-wrap:anywhere; }
+    .visibility { margin-left:5px; padding:1px 7px; border:1px solid var(--borderColor-default,#d9dde6); border-radius:20px; font:11px/18px var(--fontStack-system,system-ui); color:var(--fgColor-muted,#6b7280); }
+    .repo-actions { display:flex; gap:8px; margin-left:auto; }
+    .btn { display:inline-flex; align-items:center; justify-content:center; gap:7px; min-height:32px; padding:5px 12px; border:1px solid var(--borderColor-default,#d9dde6); border-radius:7px; background:var(--bgColor-muted,#f6f7f9); color:var(--fgColor-default,#28303a); font-size:12px; font-weight:600; white-space:nowrap; text-decoration:none; }
+    .btn:hover { text-decoration:none; filter:brightness(.98); }
+    .btn-primary { color:var(--button-primary-fgColor-rest,#fff); background-color:var(--button-primary-bgColor-rest,#6755bd); border-color:var(--button-primary-borderColor-rest,#6755bd); }
+    .count { opacity:.8; font-size:11px; margin-left:2px; }
+    .UnderlineNav { display:flex; gap:5px; overflow-x:auto; border-bottom:1px solid var(--borderColor-default,#d9dde6); padding-bottom:0; margin-bottom:25px; }
+    .UnderlineNav-item { display:flex; align-items:center; gap:7px; flex-shrink:0; position:relative; padding:11px 13px 13px; border:0; background:none; color:var(--fgColor-muted,#6b7280); font-size:12px; text-decoration:none; }
+    .UnderlineNav-item:hover { text-decoration:none; }
+    .UnderlineNav-item[aria-current="page"] { font-weight:650; }
+    .UnderlineNav-item[aria-current="page"]::after { content:""; position:absolute; bottom:-1px; left:10px; right:10px; height:3px; background:var(--fgColor-accent,#6755bd); border-radius:3px 3px 0 0; }
+    .GlobalNav .UnderlineNav { max-width:1500px; margin:0 auto; border-bottom:0; }
+    .Counter { min-width:18px; padding:0 5px; border-radius:12px; font-size:10px; line-height:18px; text-align:center; }
+    .repo-grid { display:grid; grid-template-columns:minmax(0,1fr) 248px; gap:28px; align-items:start; }
+    .repo-main,.repo-aside { min-width:0; }
+    .repo-toolbar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:14px; }
+    .branch-stat { display:flex; gap:12px; color:var(--fgColor-muted,#6b7280); font-size:11px; }
+    .file-search { margin-left:auto; width:180px; }
+    .form-control { width:100%; min-width:0; height:32px; padding:5px 10px; border:1px solid var(--borderColor-default,#d9dde6); border-radius:7px; background:var(--bgColor-default,#fff); color:var(--fgColor-default,#28303a); font-size:12px; }
+    .code-dropdown { position:relative; }
+    .code-dropdown summary { list-style:none; }
+    .code-dropdown summary::-webkit-details-marker { display:none; }
+    .copy-panel { position:absolute; z-index:5; right:0; top:calc(100% + 9px); width:min(355px,calc(100vw - 48px)); padding:16px; border:1px solid var(--borderColor-default,#d9dde6); border-radius:10px; background:var(--bgColor-overlay,var(--bgColor-default,#fff)); box-shadow:0 12px 32px #0002; }
+    .copy-panel h2 { font-size:13px; margin:0 0 4px; }
+    .copy-panel p { margin:0 0 12px; font-size:11px; color:var(--fgColor-muted,#6b7280); }
+    .copy-row { display:flex; gap:7px; }
+    .copy-row input { font-size:10px; }
+    .Box { border:1px solid var(--borderColor-default,#d9dde6); border-radius:10px; overflow:hidden; background:var(--bgColor-default,#fff); }
+    .Box-header { display:flex; align-items:center; gap:9px; min-height:50px; padding:12px 15px; border-bottom:1px solid var(--borderColor-default,#d9dde6); font-size:12px; }
+    .Box-header .avatar { width:23px; height:23px; font-size:9px; }
+    .commit-summary { min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .commit-summary strong { margin-right:9px; font-weight:600; }
+    .commit-meta { display:flex; align-items:center; gap:12px; white-space:nowrap; margin-left:auto; color:var(--fgColor-muted,#6b7280); font-size:10px; }
+    .file-table { width:100%; border-collapse:collapse; table-layout:fixed; font-size:12px; }
+    .file-table col:first-child { width:31%; }
+    .file-table col:last-child { width:92px; }
+    .file-table td { height:40px; padding:9px 14px; border-bottom:1px solid var(--borderColor-muted,#e7e9ee); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .file-table tr:last-child td { border-bottom:0; }
+    .file-table td:last-child { text-align:right; font-size:10px; }
+    .react-directory-filename-cell { display:flex; gap:10px; align-items:center; min-width:0; }
+    .react-directory-filename-cell a { overflow:hidden; text-overflow:ellipsis; }
+    .react-directory-row-commit-cell { font-size:11px; }
+    .empty-state { text-align:center; padding:24px; font-size:12px; }
+    .readme-box { margin-top:21px; }
+    .readme-heading { min-height:43px; font-size:11px; font-weight:600; }
+    .markdown-body { padding:25px 28px 24px; font-size:13px; }
+    .markdown-body h1 { margin:0 0 12px; padding-bottom:10px; border-bottom:1px solid var(--borderColor-muted,#e7e9ee); font-size:27px; letter-spacing:-.02em; }
+    .markdown-body p { margin:10px 0; }
+    .readme-label { font-size:10px; letter-spacing:.15em; text-transform:uppercase; color:var(--fgColor-accent,#6755bd); font-weight:650; }
+    .badges { display:flex; gap:6px; flex-wrap:wrap; margin:15px 0 18px; }
+    .badge { padding:2px 7px; border:1px solid var(--borderColor-default,#d9dde6); border-radius:5px; font-size:10px; color:var(--fgColor-muted,#6b7280); }
+    .badge .status-dot { display:inline-block; width:5px; height:5px; background:#35a568; border-radius:50%; margin-right:5px; }
+    .feature-row { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; margin:17px 0; }
+    .feature-row strong { display:block; margin-bottom:3px; font-size:12px; }
+    .feature-row p { font-size:11px; color:var(--fgColor-muted,#6b7280); margin:0; }
+    .markdown-body pre { margin:18px 0 0; padding:14px 16px; overflow-x:auto; font-size:11px; line-height:1.8; }
+    .pl-k { color:var(--fgColor-accent,#6755bd); } .pl-s { color:var(--fgColor-muted,#6b7280); }
+    .aside-section { padding:0 0 20px; margin:0 0 19px; border-bottom:1px solid var(--borderColor-muted,#e7e9ee); }
+    .aside-section:last-child { border:0; }
+    .aside-section h2 { display:flex; align-items:center; gap:7px; margin:0 0 13px; font-size:14px; font-weight:650; }
+    .aside-section p { font-size:12px; line-height:1.75; margin:8px 0 12px; }
+    .topic-list { display:flex; flex-wrap:wrap; gap:5px; margin:13px 0; }
+    .topic-tag { padding:2px 9px; font-size:10px; line-height:19px; }
+    .about-stat { display:flex; align-items:center; gap:8px; margin:9px 0; font-size:11px; color:var(--fgColor-muted,#6b7280); }
+    .release-title { display:flex; align-items:center; gap:8px; font-size:12px; font-weight:600; }
+    .latest { font-size:9px; padding:0 5px; border:1px solid #329965; color:#329965; border-radius:20px; line-height:17px; }
+    .contributors { display:flex; gap:7px; }
+    .contributors .avatar:nth-child(2) { color:#4288bc; } .contributors .avatar:nth-child(3) { color:#b37551; } .contributors .avatar:nth-child(4) { color:#57886a; }
+    .language-bar { height:7px; display:flex; overflow:hidden; border-radius:6px; background:var(--bgColor-muted,#f3f4f6); }
+    .language-bar span:nth-child(1) { width:84.6%; background:#8065dc; } .language-bar span:nth-child(2) { width:10.2%; background:#54b9cf; } .language-bar span:nth-child(3) { width:5.2%; background:#a5a7b8; }
+    .language-key { display:flex; flex-wrap:wrap; gap:8px 12px; margin-top:10px; font-size:9px; color:var(--fgColor-muted,#6b7280); }
+    .language-key i { display:inline-block; width:6px; height:6px; border-radius:50%; margin-right:4px; }
+    .footer { display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-top:36px; padding-top:17px; border-top:1px solid var(--borderColor-muted,#e7e9ee); font-size:10px; }
+    @media(max-width:1050px) { .repo-grid{grid-template-columns:minmax(0,1fr) 215px;gap:22px}.repo-shell{padding:24px}.branch-stat{display:none}.commit-meta time{display:none}.file-search{width:155px}.repo-actions{margin-left:0}.search-shell{width:200px} }
+    @media(max-width:760px) { .GlobalNav{padding:0 18px}.AppHeader-globalBar{gap:10px;min-height:57px}.search-shell,.header-extra{display:none}.repo-shell{padding:20px 18px 28px}.repo-heading{gap:13px;margin-bottom:16px}.repo-title{font-size:18px}.repo-actions{gap:6px}.repo-actions .btn{font-size:11px;padding:4px 9px}.UnderlineNav{margin-bottom:19px}.UnderlineNav-item{padding:10px 10px 12px}.repo-grid{grid-template-columns:minmax(0,1fr)}.repo-aside{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.aside-section{margin:0}.aside-section:first-child{grid-column:1/-1}.file-table col:first-child{width:46%}.react-directory-row-commit-cell{display:none}.file-table col:nth-child(2){width:0}.file-table col:last-child{width:85px}.file-table td{padding:10px 12px}.Box-header{padding:11px 12px}.commit-meta{display:none}.commit-summary strong{margin-right:5px}.file-search{width:130px}.markdown-body{padding:22px 20px}.markdown-body h1{font-size:25px}.footer{margin-top:28px} }
+    @media(max-width:760px) { .file-table,.file-table tbody{display:block}.file-table colgroup{display:none}.file-table tr{display:grid;grid-template-columns:minmax(0,1fr) 85px}.file-table td{display:block;height:40px}.file-table .react-directory-row-commit-cell{display:none} }
+    @media(max-width:420px) { .AppHeader-context-item-label,.header-breadcrumbs{font-size:11px}.nav-slash{margin:0 4px}.header-right{gap:7px}.AppHeader-globalBar>.icon-button{display:none}.file-search{width:auto;flex:1;min-width:90px}.repo-toolbar{gap:7px}.repo-toolbar>.btn{padding:5px 9px}.code-dropdown .btn{padding:5px 10px}.feature-row{grid-template-columns:1fr;gap:10px}.feature-row strong{margin:0}.repo-aside{grid-template-columns:1fr}.aside-section:first-child{grid-column:auto}.repo-title{gap:5px}.repo-title>.icon{display:none}.markdown-body pre{padding:12px;font-size:10px} }
+  </style>
+  <style id="nebula-theme">__NEBULA_CSS__</style>
+  <style>
+    /* Separate preview controls: these are not shipped in the installed theme. */
+    .preview-bar { display:flex; align-items:center; flex-wrap:wrap; gap:12px; min-height:48px; padding:9px 25px; background:#171b2d; color:#eef0ff; font:11px/1.4 system-ui,sans-serif; border-bottom:1px solid #383957; }
+    .preview-brand { font-weight:750; letter-spacing:.13em; font-size:11px; white-space:nowrap; }
+    .preview-brand b { color:#b6a3ff; }
+    .preview-note { color:#a6afca; font-size:10px; }
+    .preview-controls { display:flex; align-items:center; gap:14px; margin-left:auto; flex-wrap:wrap; }
+    .preview-segment { display:flex; padding:2px; gap:2px; border:1px solid #434760; border-radius:6px; }
+    .preview-segment button { border:0; border-radius:4px; background:transparent; color:#c2c9df; padding:4px 9px; font:11px/1.3 system-ui,sans-serif; }
+    .preview-segment button[aria-pressed="true"] { background:#7860d4; color:#fff; }
+    .preview-toggle { display:flex; align-items:center; gap:5px; color:#cdd3e6; cursor:pointer; white-space:nowrap; }
+    .preview-toggle input { width:12px; height:12px; margin:0; accent-color:#a18aff; }
+    .preview-toast { position:fixed; z-index:30; left:50%; bottom:22px; transform:translateX(-50%); width:max-content; max-width:calc(100vw - 32px); padding:10px 15px; border:1px solid #514773; border-radius:9px; background:#242039; color:#fff; box-shadow:0 6px 30px #0003; text-align:center; font:12px/1.5 system-ui,sans-serif; }
+    @media(max-width:760px) { .preview-bar{padding:10px 18px;gap:7px 10px}.preview-note{font-size:9px}.preview-controls{gap:11px}.preview-brand{font-size:10px} }
+    @media(max-width:560px) { .preview-controls{margin-left:0;width:100%}.preview-segment{margin-right:auto} }
+  </style>
+</head>
+<body>
+  <svg width="0" height="0" aria-hidden="true" style="position:absolute;overflow:hidden"><defs>
+    <symbol id="i-folder" viewBox="0 0 18 18"><path d="M2 5h5l2 2h7v8H2z" fill="currentColor" stroke="none"/><path d="M2 5V3h5l2 2h7v2"/></symbol>
+    <symbol id="i-file" viewBox="0 0 18 18"><path d="M4 2h6l4 4v10H4zM10 2v4h4"/></symbol>
+    <symbol id="i-code" viewBox="0 0 18 18"><path d="m6 5-4 4 4 4m6-8 4 4-4 4m-2-10-2 12"/></symbol>
+    <symbol id="i-branch" viewBox="0 0 18 18"><circle cx="5" cy="4" r="2"/><circle cx="13" cy="4" r="2"/><circle cx="5" cy="14" r="2"/><path d="M5 6v6m8-6c0 4-8 2-8 6"/></symbol>
+    <symbol id="i-star" viewBox="0 0 18 18"><path d="m9 1.5 2.2 4.7 5.1.7-3.7 3.6.9 5.1L9 13.2l-4.5 2.4.9-5.1L1.7 6.9l5.1-.7z"/></symbol>
+    <symbol id="i-circle" viewBox="0 0 18 18"><circle cx="9" cy="9" r="6.5"/><path d="M9 5.5v4m0 3h.01"/></symbol>
+    <symbol id="i-book" viewBox="0 0 18 18"><path d="M2 3c3-1 5-1 7 1 2-2 4-2 7-1v11c-3-1-5-1-7 1-2-2-4-2-7-1zm7 1v11"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 18 18"><path d="m5 7 4 4 4-4"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 18 18"><rect x="6" y="6" width="9" height="10" rx="1"/><path d="M12 6V2H2v10h4"/></symbol>
+    <symbol id="i-tag" viewBox="0 0 18 18"><path d="M2 3h7l7 7-6 6-8-8z"/><circle cx="5.5" cy="6" r=".75"/></symbol>
+  </defs></svg>
+
+  <div class="preview-bar" aria-label="本地预览控制栏">
+    <span class="preview-brand"><b>NEBULA</b> / GITHUB</span>
+    <span class="preview-note">Repository preview · fictional example data</span>
+    <div class="preview-controls">
+      <div class="preview-segment" role="group" aria-label="预览明暗模式">
+        <button type="button" data-mode="light" aria-pressed="true">Light</button>
+        <button type="button" data-mode="dark" aria-pressed="false">Dark</button>
+      </div>
+      <label class="preview-toggle"><input type="checkbox" id="preview-grid" checked> Grid</label>
+      <label class="preview-toggle"><input type="checkbox" id="preview-geometry" checked> Geometry</label>
+      <label class="preview-toggle"><input type="checkbox" id="preview-motion" checked> Motion</label>
+    </div>
+  </div>
+
+  <header class="GlobalNav AppHeader styles-module_demo_appHeader">
+    <div class="AppHeader-globalBar">
+      <button class="icon-button styles-module_demo_appHeaderButton" data-component="IconButton" data-variant="invisible" type="button" data-demo aria-label="示例导航菜单"><svg class="icon" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 5h12M3 9h12M3 13h12"/></svg></button>
+      <a class="header-logo-link styles-module_demo_appHeaderHome" data-component="IconButton" data-variant="invisible" href="#files" aria-label="Nebula 示例首页"><svg class="AppHeader-logo icon octicon octicon-mark-github" viewBox="0 0 32 32" role="img" aria-label="Nebula 示例标记"><rect x="4" y="4" width="24" height="24" rx="8"/><path d="M10 22V10l12 12V10M16 3v3m0 20v3"/></svg></a>
+      <nav class="header-breadcrumbs styles-module_demo_contextRegion" aria-label="示例路径"><a data-component="Breadcrumbs.Item" class="styles-module_demo_contextCrumb" href="#files">nebula-lab</a><span class="nav-slash" aria-hidden="true">/</span><a data-component="Breadcrumbs.Item" class="styles-module_demo_contextCrumb styles-module_demo_repoPickerCrumb" href="#files" aria-current="page">quantum-core</a></nav>
+      <div class="header-right">
+        <button type="button" class="search-shell styles-module_demo_appHeaderButton Search-module_demo_searchButton" data-component="Button" data-variant="invisible" data-demo aria-label="示例搜索"><svg class="icon octicon octicon-search" viewBox="0 0 18 18" aria-hidden="true"><circle cx="7.5" cy="7.5" r="4.5"/><path d="m11 11 4 4"/></svg> Search this repository <kbd>/</kbd></button>
+        <button class="icon-button header-extra header-create GlobalCreateMenu-module_demo_actionMenuButton" data-component="ActionMenu.Button" data-variant="invisible" type="button" data-demo aria-label="示例创建菜单"><svg class="icon" viewBox="0 0 18 18" aria-hidden="true"><path d="M9 3v12M3 9h12"/></svg><svg class="icon" style="width:11px" aria-hidden="true"><use href="#i-chevron"/></svg></button>
+        <button class="icon-button header-extra styles-module_demo_appHeaderButton" data-component="IconButton" data-variant="invisible" type="button" data-demo aria-label="示例通知"><svg class="icon" viewBox="0 0 18 18" aria-hidden="true"><path d="M4 12V8a5 5 0 0 1 10 0v4l1 2H3zm3 4h4"/></svg></button>
+        <button class="icon-button header-avatar GlobalNavUserMenu-module_demo_anchor" data-component="IconButton" data-variant="invisible" type="button" data-demo aria-label="示例团队菜单"><img class="avatar" alt="示例团队头像" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='a' x2='1' y2='1'%3E%3Cstop stop-color='%23bca5fa'/%3E%3Cstop offset='1' stop-color='%236d65df'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='16' fill='url(%23a)'/%3E%3Ctext x='16' y='21' text-anchor='middle' fill='white' font-family='sans-serif' font-size='12' font-weight='700'%3ENL%3C/text%3E%3C/svg%3E"></button>
+      </div>
+    </div>
+    <nav class="UnderlineNav LocalNavigation-module_demo_LocalNavigation prc-UnderlineNav-UnderlineWrapper-demo" aria-label="示例仓库导航">
+      <a class="UnderlineNav-item prc-components-UnderlineItem-demo" href="#files" aria-current="page"><svg class="icon" aria-hidden="true"><use href="#i-code"/></svg>Code</a>
+      <button type="button" class="UnderlineNav-item prc-components-UnderlineItem-demo" data-demo><svg class="icon" aria-hidden="true"><use href="#i-circle"/></svg>Issues <span class="Counter">12</span></button>
+      <button type="button" class="UnderlineNav-item prc-components-UnderlineItem-demo" data-demo><svg class="icon" aria-hidden="true"><use href="#i-branch"/></svg>Pull requests <span class="Counter">4</span></button>
+      <button type="button" class="UnderlineNav-item prc-components-UnderlineItem-demo" data-demo>Actions</button>
+      <button type="button" class="UnderlineNav-item prc-components-UnderlineItem-demo" data-demo>Projects</button>
+      <button type="button" class="UnderlineNav-item prc-components-UnderlineItem-demo" data-demo>Security</button>
+      <button type="button" class="UnderlineNav-item prc-components-UnderlineItem-demo" data-demo>Insights</button>
+    </nav>
+  </header>
+
+  <div class="application-main" id="js-repo-pjax-container">
+    <div class="repo-shell" id="repository-container-header">
+      <div class="repo-heading">
+        <h1 class="repo-title"><svg class="icon muted" aria-hidden="true"><use href="#i-book"/></svg><a href="#files">nebula-lab</a><span class="muted">/</span><strong itemprop="name"><a href="#files">quantum-core</a></strong><span class="visibility">Public</span></h1>
+        <div class="repo-actions" aria-label="示例仓库操作">
+          <button type="button" class="btn" data-demo>Watch <span class="count">12</span></button>
+          <button type="button" class="btn" data-demo><svg class="icon" aria-hidden="true"><use href="#i-branch"/></svg>Fork <span class="count">42</span></button>
+          <button type="button" class="btn" id="demo-star" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="#i-star"/></svg><span id="star-label">Star</span><span class="count" id="star-count">128</span></button>
+        </div>
+      </div>
+      <div class="repo-grid">
+        <main class="repo-main" id="files">
+          <div class="repo-toolbar">
+            <button type="button" class="btn" data-demo><svg class="icon" aria-hidden="true"><use href="#i-branch"/></svg>main<svg class="icon" aria-hidden="true"><use href="#i-chevron"/></svg></button>
+            <div class="branch-stat"><span><strong>3</strong> branches</span><span><strong>8</strong> tags</span></div>
+            <label class="file-search"><span class="sr-only">过滤本地示例文件</span><input class="form-control" type="search" id="file-filter" placeholder="Go to file…" autocomplete="off"></label>
+            <details class="code-dropdown" id="code-dropdown">
+              <summary class="btn btn-primary"><svg class="icon" aria-hidden="true"><use href="#i-code"/></svg>Code<svg class="icon" aria-hidden="true"><use href="#i-chevron"/></svg></summary>
+              <div class="copy-panel Overlay">
+                <h2>复制示例仓库地址</h2>
+                <p>仅用于演示复制交互，不连接真实仓库。</p>
+                <div class="copy-row"><input id="clone-address" class="form-control mono" readonly aria-label="示例仓库地址" value="https://github.com/nebula-lab/quantum-core.git"><button class="btn" id="copy-address" type="button" aria-label="复制示例地址"><svg class="icon" aria-hidden="true"><use href="#i-copy"/></svg></button></div>
+              </div>
+            </details>
+          </div>
+
+          <section class="Box" aria-label="示例仓库文件列表">
+            <div class="Box-header"><span class="avatar" aria-hidden="true">N</span><div class="commit-summary"><strong>Nebula CI</strong><span class="muted">refactor: simplify the event pipeline</span></div><div class="commit-meta"><span class="mono">a7f3c82</span><time>2 hours ago</time><span>48 commits</span></div></div>
+            <table class="file-table" id="file-list">
+              <colgroup><col><col><col></colgroup>
+              <thead class="sr-only"><tr><th scope="col">文件</th><th scope="col">示例提交说明</th><th scope="col">更新时间</th></tr></thead>
+              <tbody>
+                <tr class="react-directory-row Box-row" data-file="src"><td class="react-directory-filename-column"><div class="react-directory-filename-cell"><svg class="icon octicon-file-directory-fill" aria-hidden="true"><use href="#i-folder"/></svg><a href="#files" data-demo>src</a></div></td><td class="react-directory-row-commit-cell">refactor: simplify the event pipeline</td><td class="react-directory-commit-age">2 hours ago</td></tr>
+                <tr class="react-directory-row Box-row" data-file="docs"><td class="react-directory-filename-column"><div class="react-directory-filename-cell"><svg class="icon octicon-file-directory-fill" aria-hidden="true"><use href="#i-folder"/></svg><a href="#files" data-demo>docs</a></div></td><td class="react-directory-row-commit-cell">docs: introduce the core concepts</td><td class="react-directory-commit-age">yesterday</td></tr>
+                <tr class="react-directory-row Box-row" data-file="examples"><td class="react-directory-filename-column"><div class="react-directory-filename-cell"><svg class="icon octicon-file-directory-fill" aria-hidden="true"><use href="#i-folder"/></svg><a href="#files" data-demo>examples</a></div></td><td class="react-directory-row-commit-cell">feat: add a tiny dashboard example</td><td class="react-directory-commit-age">2 days ago</td></tr>
+                <tr class="react-directory-row Box-row" data-file="tests"><td class="react-directory-filename-column"><div class="react-directory-filename-cell"><svg class="icon octicon-file-directory-fill" aria-hidden="true"><use href="#i-folder"/></svg><a href="#files" data-demo>tests</a></div></td><td class="react-directory-row-commit-cell">test: cover async signal updates</td><td class="react-directory-commit-age">2 days ago</td></tr>
+                <tr class="react-directory-row Box-row" data-file="README.md"><td class="react-directory-filename-column"><div class="react-directory-filename-cell"><svg class="icon muted" aria-hidden="true"><use href="#i-file"/></svg><a href="#readme">README.md</a></div></td><td class="react-directory-row-commit-cell">docs: a clearer place to start</td><td class="react-directory-commit-age">yesterday</td></tr>
+                <tr class="react-directory-row Box-row" data-file="LICENSE"><td class="react-directory-filename-column"><div class="react-directory-filename-cell"><svg class="icon muted" aria-hidden="true"><use href="#i-file"/></svg><a href="#files" data-demo>LICENSE</a></div></td><td class="react-directory-row-commit-cell">chore: add example project metadata</td><td class="react-directory-commit-age">last month</td></tr>
+                <tr class="react-directory-row Box-row" data-file="package.json"><td class="react-directory-filename-column"><div class="react-directory-filename-cell"><svg class="icon muted" aria-hidden="true"><use href="#i-file"/></svg><a href="#files" data-demo>package.json</a></div></td><td class="react-directory-row-commit-cell">release: prepare the next iteration</td><td class="react-directory-commit-age">3 days ago</td></tr>
+                <tr class="react-directory-row Box-row" data-file="tsconfig.json"><td class="react-directory-filename-column"><div class="react-directory-filename-cell"><svg class="icon muted" aria-hidden="true"><use href="#i-file"/></svg><a href="#files" data-demo>tsconfig.json</a></div></td><td class="react-directory-row-commit-cell">chore: keep the type checks strict</td><td class="react-directory-commit-age">last week</td></tr>
+              </tbody>
+            </table>
+            <div class="empty-state muted" id="empty-files" hidden>没有匹配的示例文件。</div>
+          </section>
+
+          <section class="Box readme-box" id="readme" aria-label="示例 README">
+            <div class="Box-header readme-heading"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg>README.md</div>
+            <article class="markdown-body">
+              <div class="readme-label">Small modules. Clear signals.</div>
+              <h1>Quantum Core</h1>
+              <p>A tiny foundation for expressive, event-driven interfaces.<br><span class="muted">Designed to keep the moving parts easy to understand.</span></p>
+              <div class="badges"><span class="badge"><span class="status-dot"></span>build passing</span><span class="badge">v0.8.0</span><span class="badge">TypeScript</span><span class="badge">example project</span></div>
+              <div class="feature-row"><div><strong>01 / Composable</strong><p>Small pieces that fit together.</p></div><div><strong>02 / Predictable</strong><p>Every update has a clear path.</p></div><div><strong>03 / Focused</strong><p>Only the essentials, kept close.</p></div></div>
+              <pre><code><span class="pl-c">// A small, illustrative API — demo content only.</span>
+<span class="pl-k">const</span> status = createSignal(<span class="pl-s">'ready'</span>);
+status.subscribe(value =&gt; render(value));
+status.set(<span class="pl-s">'in orbit'</span>);</code></pre>
+            </article>
+          </section>
+        </main>
+
+        <aside class="repo-aside" aria-label="示例仓库信息">
+          <section class="aside-section" id="about"><h2>About</h2><p>A small, typed toolkit for building clear, event-driven interfaces.</p><div class="topic-list"><span class="topic-tag">typescript</span><span class="topic-tag">signals</span><span class="topic-tag">toolkit</span><span class="topic-tag">developer-tools</span></div><a class="about-stat" href="#readme"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg>Readme</a><div class="about-stat"><svg class="icon" aria-hidden="true"><use href="#i-star"/></svg><strong>128</strong> stars</div><div class="about-stat"><svg class="icon" aria-hidden="true"><use href="#i-branch"/></svg><strong>42</strong> forks</div><div class="about-stat"><svg class="icon" aria-hidden="true"><use href="#i-circle"/></svg>Fictional repository · preview only</div></section>
+          <section class="aside-section"><h2>Releases <span class="Counter">8</span></h2><div class="release-title"><svg class="icon" aria-hidden="true"><use href="#i-tag"/></svg>v0.8.0 <span class="latest">Latest</span></div><p class="muted" style="font-size:10px;margin:5px 0 0">A calmer, clearer core · 3 days ago</p></section>
+          <section class="aside-section"><h2>Contributors <span class="Counter">4</span></h2><div class="contributors" aria-label="四个虚构的示例成员"><span class="avatar">A</span><span class="avatar">B</span><span class="avatar">C</span><span class="avatar">D</span></div></section>
+          <section class="aside-section"><h2>Languages</h2><div class="language-bar" aria-hidden="true"><span></span><span></span><span></span></div><div class="language-key"><span><i style="background:#8065dc"></i>TypeScript 84.6%</span><span><i style="background:#54b9cf"></i>CSS 10.2%</span><span><i style="background:#a5a7b8"></i>Other 5.2%</span></div></section>
+        </aside>
+      </div>
+      <footer class="footer"><span>NEBULA / GITHUB · A local appearance preview</span><span>Fictional data · Offline preview · Unofficial theme</span></footer>
+    </div>
+  </div>
+  <div class="preview-toast" id="preview-status" role="status" aria-live="polite" hidden></div>
+  <script>
+    // Preview-only interactions. None of this JavaScript is part of the installed UserCSS.
+    (() => {
+      const root = document.documentElement;
+      const status = document.getElementById('preview-status');
+      let toastTimer;
+      function announce(message) {
+        clearTimeout(toastTimer);
+        status.textContent = message;
+        status.hidden = false;
+        toastTimer = setTimeout(() => { status.hidden = true; }, 3000);
+      }
+      document.querySelectorAll('[data-mode]').forEach(button => {
+        button.addEventListener('click', () => {
+          const mode = button.dataset.mode;
+          root.dataset.colorMode = mode;
+          root.style.colorScheme = mode;
+          document.querySelectorAll('[data-mode]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+        });
+      });
+      document.getElementById('preview-grid').addEventListener('change', event => {
+        root.style.setProperty('--nebula-grid', event.target.checked ? '1' : '0');
+      });
+      document.getElementById('preview-geometry').addEventListener('change', event => {
+        root.style.setProperty('--nebula-geometry', event.target.checked ? '1' : '0');
+      });
+      document.getElementById('preview-motion').addEventListener('change', event => {
+        root.style.setProperty('--nebula-motion', event.target.checked ? 'running' : 'paused');
+      });
+      const fileRows = [...document.querySelectorAll('[data-file]')];
+      document.getElementById('file-filter').addEventListener('input', event => {
+        const query = event.target.value.trim().toLowerCase();
+        fileRows.forEach(row => { row.hidden = !row.dataset.file.toLowerCase().includes(query); });
+        document.getElementById('empty-files').hidden = fileRows.some(row => !row.hidden);
+      });
+      document.getElementById('copy-address').addEventListener('click', async () => {
+        const input = document.getElementById('clone-address');
+        let copied = false;
+        if (navigator.clipboard && window.isSecureContext) {
+          try { await navigator.clipboard.writeText(input.value); copied = true; } catch (_) {}
+        }
+        if (!copied) {
+          input.focus();
+          input.select();
+          try { copied = document.execCommand('copy'); } catch (_) {}
+        }
+        announce(copied ? '已复制示例仓库地址' : '地址已选中，请按 Ctrl+C / ⌘C 复制');
+      });
+      document.getElementById('demo-star').addEventListener('click', event => {
+        const button = event.currentTarget;
+        const selected = button.getAttribute('aria-pressed') !== 'true';
+        button.setAttribute('aria-pressed', String(selected));
+        document.getElementById('star-label').textContent = selected ? 'Starred' : 'Star';
+        document.getElementById('star-count').textContent = selected ? '129' : '128';
+        announce(selected ? '本地点亮了一颗星 · 不会操作 GitHub 账号' : '已取消本地演示标记');
+      });
+      document.querySelectorAll('[data-demo]').forEach(element => element.addEventListener('click', event => {
+        event.preventDefault();
+        announce('这是外观演示，未连接真实仓库。可使用上方主题开关、文件过滤和 Code 复制。');
+      }));
+      document.addEventListener('keydown', event => {
+        if (event.key === 'Escape') document.getElementById('code-dropdown').open = false;
+      });
+    })();
+  </script>
+</body>
+</html>

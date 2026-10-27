@@ -1,0 +1,78 @@
+/* Decorative geometry sits above the body background and below page content.
+ * Only the two pseudo-elements move. Never transform, position, or clip body:
+ * GitHub's fixed headers, dialogs and mobile sheets keep their containing blocks.
+ * SVG masks are embedded during the build; no remote image fetch or script is added.
+ */
+:root {
+  --nb-geometry-left-mask: url("__NEBULA_GEOMETRY_LEFT__");
+  --nb-geometry-right-mask: url("__NEBULA_GEOMETRY_RIGHT__");
+}
+body { isolation: isolate; }
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  top: clamp(80px, 9vh, 120px);
+  width: clamp(132px, 18vw, 280px);
+  height: min(900px, calc(100vh - 110px));
+  z-index: -1;
+  pointer-events: none;
+  user-select: none;
+  background-color: var(--nb-accent);
+  opacity: calc(.26 * var(--nebula-geometry, 1));
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  mask-mode: alpha;
+  transform-origin: center;
+  animation: nebula-github-geometry-left
+    calc(18s * var(--nebula-geometry, 1)) ease-in-out infinite;
+  animation-play-state: var(--nebula-motion, running);
+}
+body::before {
+  left: clamp(16px, 2vw, 34px);
+  -webkit-mask-image: var(--nb-geometry-left-mask);
+  mask-image: var(--nb-geometry-left-mask);
+  animation-delay: -3s;
+}
+body::after {
+  right: clamp(16px, 2vw, 34px);
+  background-color: var(--nb-cyan);
+  opacity: calc(.29 * var(--nebula-geometry, 1));
+  -webkit-mask-image: var(--nb-geometry-right-mask);
+  mask-image: var(--nb-geometry-right-mask);
+  animation-name: nebula-github-geometry-right;
+  animation-duration: calc(22s * var(--nebula-geometry, 1));
+  animation-delay: -7s;
+}
+@keyframes nebula-github-geometry-left {
+  0%, 100% { transform: translate3d(0, 20px, 0) rotate(-2deg); }
+  50% { transform: translate3d(4px, -64px, 0) rotate(2deg); }
+}
+@keyframes nebula-github-geometry-right {
+  0%, 100% { transform: translate3d(0, -44px, 0) rotate(2deg); }
+  50% { transform: translate3d(-4px, 52px, 0) rotate(-2deg); }
+}
+@media (max-width: 767px) {
+  body::before,
+  body::after {
+    width: 132px;
+    opacity: calc(.16 * var(--nebula-geometry, 1));
+    animation-duration: calc(32s * var(--nebula-geometry, 1));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  body::before,
+  body::after { animation: none !important; transform: none; }
+}
+@supports not (mask-image: linear-gradient(black, black)) {
+  body::before,
+  body::after { display: none; }
+}
+@media print {
+  body::before,
+  body::after { display: none; }
+}

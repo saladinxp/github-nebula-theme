@@ -4,9 +4,13 @@ from pathlib import Path
 import base64
 import hashlib
 import json
+import re
 from urllib.parse import quote
 
 ROOT = Path(__file__).resolve().parent
+VERSION = (ROOT / 'RELEASE_VERSION').read_text(encoding='ascii').strip()
+if not re.fullmatch(r'[0-9]+\.[0-9]+\.[0-9]+', VERSION):
+    raise SystemExit('Invalid RELEASE_VERSION')
 DIST = ROOT / 'dist'
 DIST.mkdir(exist_ok=True)
 palettes = json.loads((ROOT / 'src/palettes.json').read_text(encoding='utf-8'))
@@ -111,7 +115,7 @@ body+=geometry+'\n}\n'
 meta='''/* ==UserStyle==
 @name         Nebula for GitHub · 日夜双主题
 @namespace    arcdex.nebula.github
-@version      1.2.1
+@version      __NEBULA_VERSION__
 @description  Blue-violet Nebula for GitHub. Follows GitHub appearance, with subtle grids, floating geometry, optional local fonts and optional motion. CSS only.
 @author       saladinxp
 @homepageURL  https://github.com/saladinxp/github-nebula-theme
@@ -123,6 +127,7 @@ meta='''/* ==UserStyle==
 @var select nebula-motion "背景与顶栏动效" {"开启*":"running","关闭":"paused"}
 ==/UserStyle== */
 '''
+meta=meta.replace('__NEBULA_VERSION__', VERSION)
 usercss=meta+'\n@-moz-document url-prefix("https://github.com/") {\n'+body+'\n}\n'
 (DIST/'nebula-github.user.css').write_text(usercss, encoding='utf-8')
 (DIST/'nebula-github.css').write_text('/* Plain CSS: apply ONLY to https://github.com/ using your style manager. */\n'+body, encoding='utf-8')
@@ -135,6 +140,6 @@ for template_name, output_name in [
     if template.exists():
         preview=template.read_text(encoding='utf-8').replace('__NEBULA_CSS__','\n'.join(fonts)+'\n'+body)
         (ROOT/'preview'/output_name).write_text(preview, encoding='utf-8')
-manifest={'name':'Nebula for GitHub','version':'1.2.1','date':'2026-10-27','scope':['https://github.com/'],'mode':'Follows GitHub data-color-mode; system preference applies only in auto mode.','networkRequestsAdded':[],'embeddedAssets':['geometry-left.svg','geometry-right.svg'],'semanticColors':'Native GitHub status, danger, success, warning and diff colors are not overridden.','files':{p.name:{'bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in sorted(DIST.glob('*.css'))}}
+manifest={'name':'Nebula for GitHub','version':VERSION,'date':'2026-10-28','scope':['https://github.com/'],'mode':'Follows GitHub data-color-mode; system preference applies only in auto mode.','networkRequestsAdded':[],'embeddedAssets':['geometry-left.svg','geometry-right.svg'],'semanticColors':'Native GitHub status, danger, success, warning and diff colors are not overridden.','files':{p.name:{'bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in sorted(DIST.glob('*.css'))}}
 (ROOT/'build-manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n', encoding='utf-8')
 for name,info in manifest['files'].items(): print(f'{name}: {info["bytes"]:,} bytes')

@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.2 — 2026-10-28
+
+- Reject symlinked package inputs, checksum files, and archive outputs.
+- Archive the same file snapshots used for checksums.
+- Check release tag targets and pin the checkout action to a fixed commit.
+- Theme colors, layout, and animation are unchanged.
+
 ## 1.2.1 — 2026-10-27
 
 Initial public release.
@@ -17,4 +24,3 @@ Initial public release.
 ### 中文
 
 首次公开发布，包含日夜配色、常用页面适配、阅读卡片、可配置几何动效、可选本地字体、离线示例和源码构建。Stylus 安装文件使用固定更新地址。
-

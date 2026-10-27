@@ -2,7 +2,7 @@
 
 ## Theme source
 
-This distribution does not declare a project-wide license for the Nebula theme source. The original Nebula design supplied for adaptation did not include a project-wide licensing statement. No MIT or other blanket license is asserted here.
+The Nebula theme source has no project-wide license. No MIT or other blanket license applies to the whole project.
 
 For permission to redistribute or relicense the theme source, contact the maintainer. A bundled font license does not license the surrounding theme.
 

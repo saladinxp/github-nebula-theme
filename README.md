@@ -2,15 +2,15 @@
 
 A soft violet light theme and a deep navy dark theme for GitHub, with subtle gradients, fine grids, and floating geometric accents.
 
-**[Install with Stylus](https://raw.githubusercontent.com/saladinxp/github-nebula-theme/main/dist/nebula-github.user.css)** · **[Download ZIP](https://github.com/saladinxp/github-nebula-theme/releases/download/v1.2.1/nebula-github-1.2.1.zip)** · [中文说明](README.zh-CN.md) · [Changelog](CHANGELOG.md) · [Gitea edition](https://github.com/saladinxp/gitea-nebula-theme)
+**[Install with Stylus](https://raw.githubusercontent.com/saladinxp/github-nebula-theme/main/dist/nebula-github.user.css)** · **[Download ZIP](https://github.com/saladinxp/github-nebula-theme/releases/download/v1.2.2/nebula-github-1.2.2.zip)** · [中文说明](README.zh-CN.md) · [Changelog](CHANGELOG.md) · [Gitea edition](https://github.com/saladinxp/gitea-nebula-theme)
 
 ## Download, install, and update
 
 | What you need | Link / action |
 | --- | --- |
-| Current complete package (v1.2.1) | **[Download nebula-github-1.2.1.zip](https://github.com/saladinxp/github-nebula-theme/releases/download/v1.2.1/nebula-github-1.2.1.zip)** |
+| Current complete package (v1.2.2) | **[Download nebula-github-1.2.2.zip](https://github.com/saladinxp/github-nebula-theme/releases/download/v1.2.2/nebula-github-1.2.2.zip)** |
 | All releases / future downloads | [Latest release](https://github.com/saladinxp/github-nebula-theme/releases/latest) · [Release history](https://github.com/saladinxp/github-nebula-theme/releases) |
-| Verify the ZIP and standalone files | [SHA-256 checksums](https://github.com/saladinxp/github-nebula-theme/releases/download/v1.2.1/release-SHA256SUMS.txt) |
+| Verify the ZIP and standalone files | [SHA-256 checksums](https://github.com/saladinxp/github-nebula-theme/releases/download/v1.2.2/release-SHA256SUMS.txt) |
 | First install in the browser | **[Install UserCSS with Stylus](https://raw.githubusercontent.com/saladinxp/github-nebula-theme/main/dist/nebula-github.user.css)** · [Installation steps](#install) |
 | Update an installed style | Stylus → Manage → Check for updates; [details](#update-or-remove) |
 
@@ -22,7 +22,7 @@ The complete ZIP includes installation instructions, optional fonts, offline pre
 | --- | --- |
 | ![Nebula light](preview/nebula-github-geometry-light.png) | ![Nebula dark](preview/nebula-github-geometry-dark.png) |
 
-Previews use fictional repositories and authored example pages.
+Previews use sample repositories and offline example pages.
 
 ## Features
 
@@ -106,7 +106,7 @@ To build the ZIP and checksums:
 python3 package-theme.py
 ```
 
-Output: `release/nebula-github-1.2.1.zip`.
+Output: `release/nebula-github-1.2.2.zip`.
 
 ## Compatibility and feedback
 

@@ -1,14 +1,17 @@
-Browser theme for **github.com**, installed with Stylus. / 用于 **github.com** 的浏览器主题，通过 Stylus 安装。
+Choose the theme color directly in **Stylus → Manage → Nebula → Configure (gear) → 配色模式 / Color mode**.
 
-- **[Install / 安装 UserCSS](https://raw.githubusercontent.com/saladinxp/github-nebula-theme/main/dist/nebula-github.user.css)**
-- **[nebula-github-1.2.2.zip](https://github.com/saladinxp/github-nebula-theme/releases/download/v1.2.2/nebula-github-1.2.2.zip)** — complete ZIP: CSS, optional fonts, source, offline previews, and licenses. / 完整安装包：CSS、可选字体、源码、离线预览和许可证。
-- [English install and update guide](https://github.com/saladinxp/github-nebula-theme/blob/v1.2.2/README.md) · [中文安装和更新说明](https://github.com/saladinxp/github-nebula-theme/blob/v1.2.2/README.zh-CN.md)
-- [SHA-256 checksums](https://github.com/saladinxp/github-nebula-theme/releases/download/v1.2.2/release-SHA256SUMS.txt) — the ZIP also contains per-file `SHA256SUMS`. / ZIP 内另附逐文件校验清单。
+- **Follow GitHub / 跟随 GitHub** (default)
+- **Light / 浅色**
+- **Dark / 深色**
 
-**Color mode / 配色：** use [GitHub Settings → Appearance](https://github.com/settings/appearance). The offline preview's Light / Dark buttons are demo controls, not buttons added to the live site. / 在 GitHub 外观设置中切换；离线预览的配色按钮不会添加到实际页面。
+**[Install or update the UserCSS / 安装或更新主题](https://raw.githubusercontent.com/saladinxp/github-nebula-theme/main/dist/nebula-github.user.css)**
 
-**Updates / 更新：** install from the permanent UserCSS link, then use Stylus **Check for updates**. Keep only one enabled copy. / 从固定链接安装后，在 Stylus 管理页检查更新，只保留一份启用的主题。
+Update to **1.2.3** to see the new Color mode dropdown. Styles created by pasting the plain CSS do not have configurable options; install the `.user.css` file and keep only one enabled copy.
 
-See [Changelog](https://github.com/saladinxp/github-nebula-theme/blob/v1.2.2/CHANGELOG.md) for the included features.
+升级到 **1.2.3** 后，在 Stylus 主题旁的齿轮中选择配色。通过粘贴普通 CSS 创建的样式没有配置选项，请安装 `.user.css` 文件，并关闭重复旧样式。
 
-Packaging and release checks are hardened in this patch; the theme colors and layout are unchanged. / 本次修正打包与发布校验，配色和布局保持原样。
+**[Download the installation ZIP / 下载直接安装包](https://github.com/saladinxp/github-nebula-theme/releases/download/v1.2.3/nebula-github-1.2.3.zip)** — contains ready-to-use CSS, optional fonts, instructions, and licenses. No Python or build steps are needed. / 只含 CSS、可选字体、说明和许可，不需要 Python，也不需要构建。
+
+[English guide](https://github.com/saladinxp/github-nebula-theme/blob/v1.2.3/README.md) · [中文说明](https://github.com/saladinxp/github-nebula-theme/blob/v1.2.3/README.zh-CN.md) · [SHA-256 checksums](https://github.com/saladinxp/github-nebula-theme/releases/download/v1.2.3/release-SHA256SUMS.txt)
+
+The palette choices are in Stylus. The theme adds no scripts to GitHub pages.

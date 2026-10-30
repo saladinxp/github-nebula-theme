@@ -33,7 +33,7 @@ class PackageTests(unittest.TestCase):
     def test_symlinked_input_is_not_archived(self):
         target = self.root / 'private.txt'
         target.write_bytes(b'PRIVATE_TEST_SENTINEL')
-        readme = self.package / 'README.md'
+        readme = self.package / 'INSTALL.md'
         readme.unlink()
         readme.symlink_to(target)
         result = self.run_package()
@@ -63,6 +63,8 @@ class PackageTests(unittest.TestCase):
         result = self.run_package()
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         with ZipFile(self.output) as archive:
+            self.assertIn(REPO + '/nebula-github.user.css', archive.namelist())
+            self.assertFalse(any(name.endswith('.py') for name in archive.namelist()))
             lines = archive.read(REPO + '/SHA256SUMS').decode().splitlines()
             for line in lines:
                 digest, name = line.split('  ', 1)

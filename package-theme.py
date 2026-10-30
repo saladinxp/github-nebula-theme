@@ -38,18 +38,10 @@ def package():
     if not re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+", version):
         raise ValueError("RELEASE_VERSION must contain a semantic version")
     names = [
-        '.gitattributes',
-        '.gitignore',
         'CHANGELOG.md',
         'LICENSING.md',
         'NOTICE.txt',
-        'README.md',
-        'README.zh-CN.md',
-        'RELEASE_NOTES.md',
-        'RELEASE_VERSION',
-        'build-manifest.json',
-        'build-theme.py',
-        'dist/nebula-github.css',
+        'INSTALL.md',
         'dist/nebula-github.user.css',
         'fonts/JetBrainsMono-Variable.ttf',
         'fonts/LICENSE-JetBrains-Mono.txt',
@@ -57,33 +49,11 @@ def package():
         'fonts/LICENSE-Sora.txt',
         'fonts/Oxanium-Variable.ttf',
         'fonts/Sora-Variable.ttf',
-        'fonts/jetbrains-mono-latin-wght-400-700.woff2',
-        'fonts/oxanium-latin-wght-400-700.woff2',
-        'fonts/sora-latin-wght-400-700.woff2',
         'fonts/ttf-sources.json',
-        'fonts/woff2-sources.json',
-        'package-theme.py',
-        'preview/dashboard-template.html',
-        'preview/nebula-github-dashboard-dark.png',
-        'preview/nebula-github-dashboard-light.png',
-        'preview/nebula-github-dashboard-preview.html',
-        'preview/nebula-github-geometry-dark.png',
-        'preview/nebula-github-geometry-light.png',
-        'preview/nebula-github-preview.html',
-        'preview/nebula-github-search-dark.png',
-        'preview/nebula-github-search-light.png',
-        'preview/nebula-github-search-preview.html',
-        'preview/preview-template.html',
-        'preview/search-template.html',
-        'src/geometry-left.svg',
-        'src/geometry-right.svg',
-        'src/geometry.css',
-        'src/interface.css',
-        'src/palettes.json',
     ]
     if len(names) != len(set(names)) or "SHA256SUMS" in names:
         raise ValueError("Duplicate or reserved path in package manifest")
-    for name in names:
+    for name in [*names, "build-theme.py", "RELEASE_VERSION"]:
         safe_path(name)
     checksum_path = safe_path("SHA256SUMS")
     output = safe_path(f"release/nebula-github-{version}.zip")
@@ -93,7 +63,10 @@ def package():
         raise ValueError("SHA256SUMS must be a regular file")
     subprocess.run([sys.executable, str(ROOT / "build-theme.py")], check=True)
     # Hash and archive the same snapshots, even if a source changes later.
-    files = {name: read_regular(name) for name in names}
+    source_files = {name: read_regular(name) for name in names}
+    source_checksums = "".join(hashlib.sha256(data).hexdigest() + "  " + name + "\n"
+                               for name, data in source_files.items()).encode("utf-8")
+    files = {name.removeprefix("dist/"): data for name, data in source_files.items()}
     checksums = "".join(hashlib.sha256(data).hexdigest() + "  " + name + "\n"
                         for name, data in files.items()).encode("utf-8")
     files["SHA256SUMS"] = checksums
@@ -118,7 +91,7 @@ def package():
         fd, checksum_tmp = tempfile.mkstemp(prefix=".nebula-checksums-", suffix=".tmp", dir=ROOT)
         temporary.append(checksum_tmp)
         with os.fdopen(fd, "wb") as stream:
-            stream.write(checksums)
+            stream.write(source_checksums)
         # Recheck output paths and replace directory entries, never link targets.
         safe_path(checksum_path.relative_to(ROOT).as_posix())
         safe_path(output.relative_to(ROOT).as_posix())

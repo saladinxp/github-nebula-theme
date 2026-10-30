@@ -1,4 +1,4 @@
-Nebula for GitHub 1.2.2
+Nebula for GitHub 1.2.3
 
 Maintained by saladinxp.
 An independent browser theme, not an official GitHub product.

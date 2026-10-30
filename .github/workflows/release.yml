@@ -36,8 +36,7 @@ jobs:
           test -s "$archive"
           mkdir release-assets
           cp "$archive" release-assets/
-          cp dist/nebula-github.user.css release-assets/
-          (cd release-assets && sha256sum nebula-github-*.zip nebula-github.user.css > release-SHA256SUMS.txt)
+          (cd release-assets && sha256sum nebula-github-*.zip > release-SHA256SUMS.txt)
           (cd release-assets && sha256sum -c release-SHA256SUMS.txt)
       - name: Upload, verify download, and publish
         shell: bash

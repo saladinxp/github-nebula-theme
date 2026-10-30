@@ -1,11 +1,11 @@
 {
   "name": "Nebula for GitHub",
-  "version": "1.2.2",
-  "date": "2026-10-28",
+  "version": "1.2.3",
+  "date": "2026-10-30",
   "scope": [
     "https://github.com/"
   ],
-  "mode": "Follows GitHub data-color-mode; system preference applies only in auto mode.",
+  "mode": "Stylus: follow GitHub (default), force light, or force dark. Plain CSS follows GitHub.",
   "networkRequestsAdded": [],
   "embeddedAssets": [
     "geometry-left.svg",
@@ -18,8 +18,8 @@
       "sha256": "f585904d940ae7e401e988ab26645db7263cb65afe55f43ae3e808d21e65bd19"
     },
     "nebula-github.user.css": {
-      "bytes": 68453,
-      "sha256": "3a023553730a612cc8aa7d8334b93910f41b20f6af71e39448a7a1b974e57440"
+      "bytes": 87275,
+      "sha256": "c618d0133f00d032d85f21070ab2ddeebcecf055573e0e61fc0de6da7cddfd78"
     }
   }
 }

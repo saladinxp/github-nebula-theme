@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.3 — 2026-10-30
+
+- Add a Color mode dropdown in Stylus: Follow GitHub, Light, and Dark.
+- Fixed Light / Dark modes apply independently of the GitHub account appearance.
+- Keep grid, geometry, motion, reduced-motion and forced-color support.
+- Ship a ready-to-install ZIP without Python or build source files.
+
 ## 1.2.2 — 2026-10-28
 
 - Reject symlinked package inputs, checksum files, and archive outputs.
